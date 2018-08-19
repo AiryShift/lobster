@@ -15,12 +15,6 @@
 
 import enum
 
-POTS_PER_BOAT = 6
-GOOD_IN = 3
-GOOD_OFF = 5
-BAD_IN = 5
-BAD_OFF = -6
-
 
 class Weather(enum.Enum):
     GOOD = enum.auto()
@@ -52,8 +46,4 @@ class Strategy:
         return self.inshore + self.offshore
 
 
-def profit(strategy, weather):
-    if weather is Weather.GOOD:
-        return strategy.inshore * GOOD_IN + strategy.offshore * GOOD_OFF
-    else:
-        return strategy.inshore * BAD_IN + strategy.offshore * BAD_OFF
+HOTEL_WORK = Strategy()

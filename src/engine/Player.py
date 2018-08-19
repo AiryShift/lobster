@@ -14,7 +14,6 @@
 
 
 class Player:
-    def __init__(self, ident):
-        self.ident = ident
+    def __init__(self):
         self.boats = 1
         self.cash = 0
