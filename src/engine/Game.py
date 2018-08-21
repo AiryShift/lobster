@@ -39,7 +39,7 @@ def profit(player, strategy, weather):
     assert validate(player, strategy)
 
     if strategy is HOTEL_WORK:
-        return HOTEL_WAGE + (max(player.cash, 0) * (1 + INTEREST_CHARGED))
+        return HOTEL_WAGE
 
     if weather is Weather.GOOD:
         return strategy.inshore * GOOD_IN + strategy.offshore * GOOD_OFF
@@ -55,38 +55,78 @@ class Game:
         self.strategies = {}
         self.consecutive_bad = 0
 
-    def submit_strategy(self, player, inshore, offshore, hotel=False):
-        if player not in self.players:
+    @property
+    def num_players(self):
+        return len(self.players)
+
+    def get_player(self, player_id):
+        return self.players[player_id]
+
+    def submit_strategy(self, player_id, inshore, offshore, hotel=False):
+        if player_id not in self.players:
             return False
 
+        player = self.get_player(player_id)
         if hotel:
-            self.strategies[player] = HOTEL_WORK
+            self.strategies[player_id] = HOTEL_WORK
         else:
             strategy = Strategy(inshore, offshore)
             if not validate(player, strategy):
                 return False
-            self.strategies[player] = strategy
+            self.strategies[player_id] = strategy
 
         return True
 
+    def num_strategies(self):
+        return len(self.strategies)
+
+    def buy_boat(self, player_id):
+        if player_id not in self.players:
+            return False
+        player = self.get_player(player_id)
+
+        if player.cash < BOAT_COST:
+            return False
+
+        player.cash -= 1
+        player.boats += 1
+        return True
+
+    def sell_boat(self, player_id):
+        if player_id not in self.players:
+            return False
+        player = self.get_player(player_id)
+
+        if player.boats == 1:
+            return False
+
+        player.boats -= 1
+        player.cash += BOAT_RESALE
+        return True
+
     def finish_day(self):
+        if self.num_strategies() != self.num_players:
+            return False
+
         self.update_weather()
         if self.day is Day.SUN:
-            for player in self.players:
+            for player in self.players.values():
                 if player.cash < 0:
                     player.cash = round(player.cash * (1 + INTEREST_CHARGED))
                 player.cash -= 30 + player.boats * UPKEEP_PER_BOAT
 
-        if consecutive_bad == HURRICANE_PERIOD:
-            for player in self.players:
+        if self.consecutive_bad == HURRICANE_PERIOD:
+            for player in self.players.values():
                 player.boats = 1
                 player.cash -= BOAT_COST
         else:
-            for player in self.players:
-                player.cash += profit(player, self.strategies[player], self.weather)
+            for player in self.players.values():
+                player.cash += profit(player,
+                                      self.strategies[player], self.weather)
 
         self.day = next_day(self.day)
         self.strategies = {}
+        return True
 
     def update_weather(self):
         roll = random.randint(1, 6)

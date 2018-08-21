@@ -46,4 +46,4 @@ class Strategy:
         return self.inshore + self.offshore
 
 
-HOTEL_WORK = Strategy()
+HOTEL_WORK = Strategy(0, 0)
