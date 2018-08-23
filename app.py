@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 2018 Julian Tu
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +15,15 @@
 # limitations under the License.
 
 from flask import Flask, render_template
+from flask_socketio import send, SocketIO
 
+from src.engine.Game import Game
 from src.views.game_view import game_view
 
 app = Flask(__name__)
 app.register_blueprint(game_view, url_prefix='/play')
+socketio = SocketIO(app)
+game = Game()
 
 
 @app.route('/')
@@ -25,5 +31,12 @@ def index():
     return render_template('index.html')
 
 
+@socketio.on('message')
+def handle_message(message):
+    print('got %s' % message)
+    if message == 'join':
+        send(str(game.add_player()))
+
+
 if __name__ == '__main__':
-    app.run()
+    socketio.run(app)

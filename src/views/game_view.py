@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 game_view = Blueprint('game_view', __name__)
 
 
 @game_view.route('game')
 def game():
-    return 'Playing game atm brb'
+    return render_template('game.html')

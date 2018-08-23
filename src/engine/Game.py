@@ -48,7 +48,7 @@ def profit(player, strategy, weather):
 
 
 class Game:
-    def __init__(self, num_players):
+    def __init__(self, num_players=0):
         self.day = Day.MON
         self.weather = None  # initialised at the end of the first day
         self.players = {i: Player() for i in range(num_players)}
@@ -58,6 +58,11 @@ class Game:
     @property
     def num_players(self):
         return len(self.players)
+
+    def add_player(self):
+        new_id = len(self.players)
+        self.players[new_id] = Player()
+        return new_id
 
     def get_player(self, player_id):
         return self.players[player_id]
