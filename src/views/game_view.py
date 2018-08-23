@@ -12,18 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from flask import Flask, render_template
+from flask import Blueprint
 
-from src.views.game_view import game_view
-
-app = Flask(__name__)
-app.register_blueprint(game_view, url_prefix='/play')
+game_view = Blueprint('game_view', __name__)
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-if __name__ == '__main__':
-    app.run()
+@game_view.route('game')
+def game():
+    return 'Playing game atm brb'
