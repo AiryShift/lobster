@@ -6,7 +6,28 @@
 <h1 class="mt-3 mb-3">Playing Lobstah "Game"</h1>
 
 <div>
-	<h2>Information</h2>
+	<h2 class="mb-3">My Information</h2>
+	<p>
+		Today is: <strong id="day_of_week">Monday</strong>
+	</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Cash</th>
+				<th scope="col">Boats</th>
+				<th scope="col">Pots</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="my_id">-</td>
+				<td id="my_cash">$ -</td>
+				<td id="my_boats">-</td>
+				<td id="my_pots">-</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
 <div>
@@ -15,9 +36,9 @@
 
 <div>
 	<h2>Commands</h2>
-	<button class="btn" name="update-btn" onclick="requestInfo()">Update Information</button>
-	<button class="btn text-danger" name="join-btn" onclick="join()">Join</button>
-	<button class="btn text-danger" name="restart-btn" onclick="resetGame()">Restart</button>
+	<button class="btn" id="update-btn" onclick="requestInfo()">Update Information</button>
+	<button class="btn text-danger" id="join-btn" onclick="join()">Join</button>
+	<button class="btn text-danger" id="restart-btn" onclick="resetGame()">Restart</button>
 </div>
 {% endblock body %}
 

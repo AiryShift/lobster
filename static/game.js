@@ -18,8 +18,7 @@ socket.on('restart_ack', () => {
 });
 
 socket.on('request_info_ack', (info) => {
-    console.log('cash: ' + info['cash']);
-    console.log('boats: ' + info['boats']);
+    setInfo(window.player_id, info['cash'], info['boats'], info['pots'], info['day']);
 });
 
 function join() {
@@ -28,8 +27,17 @@ function join() {
 
 function resetGame() {
     socket.emit('restart');
+    setInfo();
 }
 
 function requestInfo() {
     socket.emit('request_info', window.player_id);
+}
+
+function setInfo(player_id='-', cash=' -', boats='-', pots='-', day='Monday') {
+    document.getElementById('my_id').textContent = player_id;
+    document.getElementById('my_cash').textContent = '$' + cash;
+    document.getElementById('my_boats').textContent = boats;
+    document.getElementById('my_pots').textContent = pots;
+    document.getElementById('day_of_week').textContent = day;
 }

@@ -22,18 +22,33 @@ class Weather(enum.Enum):
 
 
 @enum.unique
-class Day(enum.IntEnum):
-    MON = 0
-    TUE = 1
-    WED = 2
-    THU = 3
-    FRI = 4
-    SAT = 5
-    SUN = 6
+class Day(enum.Enum):
+    MON = 'Monday'
+    TUE = 'Tuesday'
+    WED = 'Wednesday'
+    THU = 'Thursday'
+    FRI = 'Friday'
+    SAT = 'Saturday'
+    SUN = 'Sunday'
+
+    def __str__(self):
+        return self.value
 
 
 def next_day(day):
-    return (day + 1) % len(list(Day))
+    if day is Day.MON:
+        return Day.TUE
+    elif day is Day.TUE:
+        return DAY.WED
+    elif day is Day.WED:
+        return Day.THU
+    elif day is Day.THU:
+        return Day.FRI
+    elif day is Day.FRI:
+        return Day.SAT
+    elif day is Day.SAT:
+        return Day.SUN
+    return Day.MON
 
 
 class Strategy:

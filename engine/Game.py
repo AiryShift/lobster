@@ -49,11 +49,15 @@ def profit(player, strategy, weather):
 
 class Game:
     def __init__(self, num_players=0):
-        self.day = Day.MON
+        self._day = Day.MON
         self.weather = None  # initialised at the end of the first day
         self.players = {str(i): Player() for i in range(num_players)}
         self.strategies = {}
         self.consecutive_bad = 0
+
+    @property
+    def day(self):
+        return str(self._day)
 
     @property
     def num_players(self):
@@ -76,6 +80,9 @@ class Game:
 
     def get_boats(self, player_id):
         return str(self.get_player(player_id).boats)
+
+    def get_pots(self, player_id):
+        return str(self.get_player(player_id).boats * POTS_PER_BOAT)
 
     def submit_strategy(self, player_id, inshore, offshore, hotel=False):
         if player_id not in self.players:
@@ -127,7 +134,7 @@ class Game:
             return False
 
         self.update_weather()
-        if self.day is Day.SUN:
+        if self._day is Day.SUN:
             for player in self.players.values():
                 if player.cash < 0:
                     player.cash = round(player.cash * (1 + INTEREST_CHARGED))
@@ -143,7 +150,7 @@ class Game:
                                       self.strategies[player],
                                       self.weather)
 
-        self.day = next_day(self.day)
+        self._day = next_day(self._day)
         self.strategies = {}
         return True
 

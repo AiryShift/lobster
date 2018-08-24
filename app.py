@@ -51,6 +51,8 @@ def handle_request_info(player_id):
     emit('request_info_ack', {
         'cash': game.get_cash(player_id),
         'boats': game.get_boats(player_id),
+        'pots': game.get_pots(player_id),
+        'day': game.day,
     })
 
 
