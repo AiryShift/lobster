@@ -73,7 +73,7 @@ class Game:
         return new_id
 
     def get_player(self, player_id):
-        return self.players[player_id]
+        return self.players[player_id] or Player(0, 0)
 
     def get_cash(self, player_id):
         return str(self.get_player(player_id).cash)
