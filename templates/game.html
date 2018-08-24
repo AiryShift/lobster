@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 
-{% block head %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js" integrity="sha256-0YA7ixx4+I4GrLichcjWSQHIUSQiI8ojTDqsK7AZ5zU=" crossorigin="anonymous"></script>
-{% endblock head %}
 
 {% block body %}
-<script type="text/javascript" charset="utf-8">
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
-    socket.on('connect', () => {
-        socket.send('join');
-    });
+<script type="text/javascript" src="{{ url_for('static', filename='game.js') }}" charset="utf-8"></script>
+<h1 class="mt-3 mb-3">Playing Lobstah "Game"</h1>
 
-    socket.on('message', (msg) => {
-        print(msg);
-    });
-</script>
+<div>
+	<h2>Information</h2>
+</div>
+
+<div>
+	<h2>Planning</h2>
+</div>
+
+<div>
+	<h2>Commands</h2>
+	<button class="btn" name="update-btn" onclick="requestInfo()">Update Information</button>
+	<button class="btn text-danger" name="join-btn" onclick="join()">Join</button>
+	<button class="btn text-danger" name="restart-btn" onclick="resetGame()">Restart</button>
+</div>
 {% endblock body %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js" integrity="sha256-0YA7ixx4+I4GrLichcjWSQHIUSQiI8ojTDqsK7AZ5zU=" crossorigin="anonymous"></script>
+{% endblock js %}

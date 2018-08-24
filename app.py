@@ -15,10 +15,10 @@
 # limitations under the License.
 
 from flask import Flask, render_template
-from flask_socketio import send, SocketIO
+from flask_socketio import SocketIO, emit
 
-from src.engine.Game import Game
-from src.views.game_view import game_view
+from engine import Game
+from views.game_view import game_view
 
 app = Flask(__name__)
 app.register_blueprint(game_view, url_prefix='/play')
@@ -31,11 +31,32 @@ def index():
     return render_template('index.html')
 
 
+@socketio.on('join')
+def handle_join():
+    print('got join')
+    emit('join_ack', {'id': game.add_player()})
+
+
+@socketio.on('restart')
+def handle_restart():
+    global game
+    print('got restart')
+    game = Game()
+    emit('restart_ack', broadcast=True)
+
+
+@socketio.on('request_info')
+def handle_request_info(player_id):
+    print('got request_info for', player_id)
+    emit('request_info_ack', {
+        'cash': game.get_cash(player_id),
+        'boats': game.get_boats(player_id),
+    })
+
+
 @socketio.on('message')
 def handle_message(message):
-    print('got %s' % message)
-    if message == 'join':
-        send(str(game.add_player()))
+    print(message)
 
 
 if __name__ == '__main__':

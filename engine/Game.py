@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import random
-from Player import Player
-from util import Day, next_day, HOTEL_WORK, Strategy, Weather
 
+from .Player import Player
+from .util import HOTEL_WORK, Day, Strategy, Weather, next_day
 
 POTS_PER_BOAT = 6
 
@@ -51,7 +51,7 @@ class Game:
     def __init__(self, num_players=0):
         self.day = Day.MON
         self.weather = None  # initialised at the end of the first day
-        self.players = {i: Player() for i in range(num_players)}
+        self.players = {str(i): Player() for i in range(num_players)}
         self.strategies = {}
         self.consecutive_bad = 0
 
@@ -59,13 +59,23 @@ class Game:
     def num_players(self):
         return len(self.players)
 
+    @property
+    def player_ids(self):
+        return self.players.keys()
+
     def add_player(self):
-        new_id = len(self.players)
+        new_id = str(len(self.players))
         self.players[new_id] = Player()
         return new_id
 
     def get_player(self, player_id):
         return self.players[player_id]
+
+    def get_cash(self, player_id):
+        return str(self.get_player(player_id).cash)
+
+    def get_boats(self, player_id):
+        return str(self.get_player(player_id).boats)
 
     def submit_strategy(self, player_id, inshore, offshore, hotel=False):
         if player_id not in self.players:
@@ -81,6 +91,9 @@ class Game:
             self.strategies[player_id] = strategy
 
         return True
+
+    def did_submit(self, player_id):
+        return player_id in self.strategies
 
     def num_strategies(self):
         return len(self.strategies)
@@ -127,7 +140,8 @@ class Game:
         else:
             for player in self.players.values():
                 player.cash += profit(player,
-                                      self.strategies[player], self.weather)
+                                      self.strategies[player],
+                                      self.weather)
 
         self.day = next_day(self.day)
         self.strategies = {}
