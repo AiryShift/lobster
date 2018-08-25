@@ -41,13 +41,20 @@ function setInfo(player_id='-', cash=' -', boats='-', pots='-', day='Monday', co
     document.getElementById('yesterday_weather').textContent = yesterday_weather;
 }
 
-function validate_strategy() {
-    var inshore = document.getElementById('inshore_input').value;
-    var offshore = document.getElementById('offshore_input').value;
-    socket.emit('validate_strategy', window.player_id, parseInt(inshore), parseInt(offshore), (valid) => {
-        console.log(valid);
-        if (valid) {
-            console.log('validated inshore: ' + inshore + ' offshore: ' + offshore);
-        }
-    });
+function submit_strategy() {
+    if (document.getElementById('fish_radio').checked) {
+        var inshore = document.getElementById('inshore_input').value;
+        var offshore = document.getElementById('offshore_input').value;
+        socket.emit('validate_strategy', window.player_id, parseInt(inshore), parseInt(offshore), (valid) => {
+            if (valid) {
+                console.log('submitting inshore: ' + inshore + ' offshore: ' + offshore);
+                socket.emit('submit_strategy', window.player_id, {
+                    'inshore': parseInt(inshore),
+                    'offshore': parseInt(offshore),
+                });
+            }
+        });
+    } else {
+        socket.emit('submit_strategy', window.player_id, {'hotel_work': null});
+    }
 }

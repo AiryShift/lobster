@@ -91,19 +91,23 @@ class Game:
     def validate_strategy(self, player_id, inshore, offshore):
         return validate(self.get_player(player_id), Strategy(inshore, offshore))
 
-    def submit_strategy(self, player_id, inshore, offshore, hotel=False):
+    def submit_fish_strategy(self, player_id, inshore, offshore):
         if player_id not in self.players:
             return False
 
         player = self.get_player(player_id)
-        if hotel:
-            self.strategies[player_id] = HOTEL_WORK
-        else:
-            strategy = Strategy(inshore, offshore)
-            if not validate(player, strategy):
-                return False
-            self.strategies[player_id] = strategy
+        strategy = Strategy(inshore, offshore)
+        if not validate(player, strategy):
+            return False
+        self.strategies[player_id] = strategy
+        return True
 
+    def submit_hotel_strategy(self, player_id):
+        if player_id not in self.players:
+            return False
+
+        player = self.get_player(player_id)
+        self.strategies[player_id] = HOTEL_WORK
         return True
 
     def did_submit(self, player_id):

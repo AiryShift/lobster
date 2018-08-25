@@ -63,6 +63,15 @@ def handle_validate_strategy(player_id, inshore, offshore):
     return game.validate_strategy(player_id, inshore, offshore)
 
 
+@socketio.on('submit_strategy')
+def handle_submit_strategy(player_id, strategy):
+    print('submitting {} for {}'.format(strategy, player_id))
+    if 'hotel_work' in strategy:
+        game.submit_hotel_strategy(player_id)
+    else:
+        game.submit_fish_strategy(player_id, strategy['inshore'], strategy['offshore'])
+
+
 @socketio.on('message')
 def handle_message(message):
     print(message)
