@@ -35,11 +35,11 @@ function resetGame() {
 
 function requestInfo() {
     socket.emit('request_info', window.player_id, (info) => {
-        setInfo(window.player_id, info['cash'], info['boats'], info['pots'], info['day'], info['consecutive_bad'], info['yesterday_weather']);
+        setInfo(window.player_id, info['cash'], info['boats'], info['pots'], info['day'], info['consecutive_bad'], info['yesterday_weather'], info['day_num']);
     });
 }
 
-function setInfo(player_id='-', cash=' -', boats='-', pots='-', day='Monday', consecutive_bad='0', yesterday_weather='Good') {
+function setInfo(player_id='-', cash=' -', boats='-', pots='-', day='Monday', consecutive_bad='0', yesterday_weather='Good', day_num='0') {
     window.player_id = player_id;
     document.getElementById('my_id').textContent = player_id;
     document.getElementById('my_cash').textContent = '$' + cash;
@@ -48,6 +48,7 @@ function setInfo(player_id='-', cash=' -', boats='-', pots='-', day='Monday', co
     document.getElementById('day_of_week').textContent = day;
     document.getElementById('consecutive_bad_weather').textContent = consecutive_bad;
     document.getElementById('yesterday_weather').textContent = yesterday_weather;
+    document.getElementById('day_num').textContent = day_num;
 }
 
 function submit_strategy() {

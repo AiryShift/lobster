@@ -49,6 +49,7 @@ def profit(player, strategy, weather):
 
 class Game:
     def __init__(self, num_players=0):
+        self.day_num = 0
         self._day = Day.MON
         self.weather = Weather.GOOD
         self.players = {str(i): Player() for i in range(num_players)}
@@ -166,6 +167,7 @@ class Game:
 
         self._day = next_day(self._day)
         self.strategies = {}
+        self.day_num += 1
 
     def update_weather(self):
         roll = random.randint(1, 6)
