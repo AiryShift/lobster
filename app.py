@@ -72,6 +72,15 @@ def handle_submit_strategy(player_id, strategy):
         game.submit_fish_strategy(player_id, strategy['inshore'], strategy['offshore'])
 
 
+@socketio.on('next_turn')
+def handle_next_turn():
+    print('attempting to advance turn...')
+    if game.ready_to_finish():
+        game.finish_day()
+        emit('next_turn_ack', broadcast=True)
+        print('success')
+
+
 @socketio.on('message')
 def handle_message(message):
     print(message)

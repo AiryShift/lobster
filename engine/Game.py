@@ -140,6 +140,9 @@ class Game:
         player.cash += BOAT_RESALE
         return True
 
+    def ready_to_finish(self):
+        return self.num_strategies() == self.num_players
+
     def finish_day(self):
         if self.num_strategies() != self.num_players:
             return False
@@ -156,14 +159,13 @@ class Game:
                 player.boats = 1
                 player.cash -= BOAT_COST
         else:
-            for player in self.players.values():
+            for player_id, player in self.players.items():
                 player.cash += profit(player,
-                                      self.strategies[player],
+                                      self.strategies[player_id],
                                       self.weather)
 
         self._day = next_day(self._day)
         self.strategies = {}
-        return True
 
     def update_weather(self):
         roll = random.randint(1, 6)

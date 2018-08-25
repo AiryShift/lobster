@@ -42,7 +42,7 @@ def next_day(day):
     if day is Day.MON:
         return Day.TUE
     elif day is Day.TUE:
-        return DAY.WED
+        return Day.WED
     elif day is Day.WED:
         return Day.THU
     elif day is Day.THU:

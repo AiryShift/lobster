@@ -8,9 +8,18 @@ socket.on('message', (msg) => {
 });
 
 socket.on('restart_ack', () => {
-    console.log('restarting...')
+    console.log('restarting...');
     setInfo();
 });
+
+socket.on('next_turn_ack', () => {
+    console.log('advancing turn');
+    requestInfo();
+});
+
+function nextTurn() {
+    socket.emit('next_turn');
+}
 
 function join() {
     socket.emit('join', (player_id) => {
