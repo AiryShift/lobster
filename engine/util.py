@@ -17,8 +17,11 @@ import enum
 
 
 class Weather(enum.Enum):
-    GOOD = enum.auto()
-    BAD = enum.auto()
+    GOOD = 'Good'
+    BAD = 'Bad'
+
+    def __str__(self):
+        return self.value
 
 
 @enum.unique

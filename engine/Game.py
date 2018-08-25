@@ -50,7 +50,7 @@ def profit(player, strategy, weather):
 class Game:
     def __init__(self, num_players=0):
         self._day = Day.MON
-        self.weather = None  # initialised at the end of the first day
+        self.weather = Weather.GOOD
         self.players = {str(i): Player() for i in range(num_players)}
         self.strategies = {}
         self.consecutive_bad = 0
@@ -58,6 +58,10 @@ class Game:
     @property
     def day(self):
         return str(self._day)
+
+    @property
+    def yesterday_weather(self):
+        return str(self.weather)
 
     @property
     def num_players(self):

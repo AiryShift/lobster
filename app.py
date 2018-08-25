@@ -53,6 +53,8 @@ def handle_request_info(player_id):
         'boats': game.get_boats(player_id),
         'pots': game.get_pots(player_id),
         'day': game.day,
+        'consecutive_bad': game.consecutive_bad,
+        'yesterday_weather': game.yesterday_weather,
     }
 
 
