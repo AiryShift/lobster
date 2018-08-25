@@ -30,15 +30,52 @@
 	</table>
 </div>
 
+<script type='text/javascript' src="{{ url_for('static', filename='game_planning.js') }}"></script>
 <div>
-	<h2>Planning</h2>
+	<h2 class="mb-2">Planning</h2>
+	<div class="mb-3">
+		<form>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="work_choice" id="hotel_radio" onclick="disableFishing()" value="hotel" checked>
+				<label class="form-check-label" for="hotel_radio">
+					Work at the hotel
+				</label>
+			</div>
+
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="work_choice" id="fish_radio" onclick="enableFishing()" value="fish">
+				<label class="form-check-label" for="fish_radio">
+					Go fish
+				</label>
+			</div>
+
+			<div class="form-row mt-2">
+				<div class="col">
+					<label for="inshore_input">
+						Pots inshore
+					</label>
+					<input class="form-control" type="number" min="0" id="inshore_input" value="0" disabled>
+				</div>
+				<div class="col">
+					<label for="offshore_input">
+						Pots offshore
+					</label>
+					<input class="form-control" type="number" min="0" id="offshore_input" value="0" disabled>
+				</div>
+			</div>
+
+			<div class="mt-3">
+				<button type="button" class="btn btn-primary btn-block" id="submit_plan" onclick="validate_strategy()">Submit</button>
+			</div>
+		</form>
+	</div>
 </div>
 
 <div>
 	<h2>Commands</h2>
-	<button class="btn" id="update-btn" onclick="requestInfo()">Update Information</button>
-	<button class="btn text-danger" id="join-btn" onclick="join()">Join</button>
-	<button class="btn text-danger" id="restart-btn" onclick="resetGame()">Restart</button>
+	<button type="button" class="btn btn-info" id="update-btn" onclick="requestInfo()">Update Information</button>
+	<button type="button" class="btn btn-danger" id="join-btn" onclick="join()">Join</button>
+	<button type="button" class="btn btn-danger" id="restart-btn" onclick="resetGame()">Restart</button>
 </div>
 {% endblock body %}
 

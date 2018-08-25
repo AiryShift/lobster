@@ -73,7 +73,7 @@ class Game:
         return new_id
 
     def get_player(self, player_id):
-        return self.players[player_id] or Player(0, 0)
+        return self.players[player_id] if player_id in self.players else Player(0, 0)
 
     def get_cash(self, player_id):
         return str(self.get_player(player_id).cash)
@@ -83,6 +83,9 @@ class Game:
 
     def get_pots(self, player_id):
         return str(self.get_player(player_id).boats * POTS_PER_BOAT)
+
+    def validate_strategy(self, player_id, inshore, offshore):
+        return validate(self.get_player(player_id), Strategy(inshore, offshore))
 
     def submit_strategy(self, player_id, inshore, offshore, hotel=False):
         if player_id not in self.players:

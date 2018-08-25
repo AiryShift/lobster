@@ -34,7 +34,7 @@ def index():
 @socketio.on('join')
 def handle_join():
     print('got join')
-    emit('join_ack', {'id': game.add_player()})
+    return game.add_player()
 
 
 @socketio.on('restart')
@@ -48,12 +48,17 @@ def handle_restart():
 @socketio.on('request_info')
 def handle_request_info(player_id):
     print('got request_info for', player_id)
-    emit('request_info_ack', {
+    return {
         'cash': game.get_cash(player_id),
         'boats': game.get_boats(player_id),
         'pots': game.get_pots(player_id),
         'day': game.day,
-    })
+    }
+
+
+@socketio.on('validate_strategy')
+def handle_validate_strategy(player_id, inshore, offshore):
+    return game.validate_strategy(player_id, inshore, offshore)
 
 
 @socketio.on('message')
