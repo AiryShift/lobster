@@ -47,6 +47,10 @@ def profit(player, strategy, weather):
         return strategy.inshore * BAD_IN + strategy.offshore * BAD_OFF
 
 
+def is_hurricane(consecutive_bad):
+    return consecutive_bad == HURRICANE_PERIOD
+
+
 class Game:
     def __init__(self, num_players=0):
         self.day_num = 0
@@ -155,10 +159,11 @@ class Game:
                     player.cash = round(player.cash * (1 + INTEREST_CHARGED))
                 player.cash -= 30 + player.boats * UPKEEP_PER_BOAT
 
-        if self.consecutive_bad == HURRICANE_PERIOD:
+        if is_hurricane(self.consecutive_bad):
             for player in self.players.values():
-                player.boats = 1
-                player.cash -= BOAT_COST
+                while player.boats > 1:
+                    player.boats -= 1
+                    player.cash -= BOAT_COST
         else:
             for player_id, player in self.players.items():
                 player.cash += profit(player,
