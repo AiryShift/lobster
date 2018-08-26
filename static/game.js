@@ -68,3 +68,13 @@ function submit_strategy() {
         socket.emit('submit_strategy', window.player_id, {'hotel_work': null});
     }
 }
+
+function enableFishing() {
+    document.getElementById('inshore_input').disabled = false;
+    document.getElementById('offshore_input').disabled = false;
+}
+
+function disableFishing() {
+    document.getElementById('inshore_input').disabled = true;
+    document.getElementById('offshore_input').disabled = true;
+}
