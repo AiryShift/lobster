@@ -59,13 +59,19 @@ function submit_strategy() {
             if (valid) {
                 console.log('submitting inshore: ' + inshore + ' offshore: ' + offshore);
                 socket.emit('submit_strategy', window.player_id, {
-                    'inshore': parseInt(inshore),
-                    'offshore': parseInt(offshore),
+                    inshore: parseInt(inshore),
+                    offshore: parseInt(offshore),
+                });
+            } else {
+                bootbox.alert({
+                    message: 'Invalid fishing allocation.',
+                    backdrop: true,
+                    size: 'small',
                 });
             }
         });
     } else {
-        socket.emit('submit_strategy', window.player_id, {'hotel_work': null});
+        socket.emit('submit_strategy', window.player_id, {hotel_work: null});
     }
 }
 
