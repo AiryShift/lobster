@@ -23,6 +23,7 @@ socket.on('message', (msg) => {
 
 socket.on('restart_ack', () => {
     console.log('restarting...');
+    window.player_id = null;
     setInfo();
 });
 
@@ -53,6 +54,21 @@ function join() {
     });
 }
 
+function exit() {
+    if (window.player_id !== null) {
+        bootbox.confirm({
+            message: 'Are you sure?',
+            callback: (result) => {
+                if (result) {
+                    socket.emit('exit', window.player_id);
+                    window.player_id = null;
+                    requestInfo();
+                }
+            }
+        });
+    }
+}
+
 function resetGame() {
     socket.emit('restart');
 }
@@ -64,7 +80,6 @@ function requestInfo() {
 }
 
 function setInfo(player_id = '-', cash = ' -', boats = '-', pots = '-', day = 'Monday', consecutive_bad = '0', yesterday_weather = 'Good', day_num = '0') {
-    window.player_id = player_id;
     document.getElementById('my_id').textContent = player_id;
     document.getElementById('my_cash').textContent = '$' + cash;
     document.getElementById('my_boats').textContent = boats;

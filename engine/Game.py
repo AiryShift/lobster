@@ -88,6 +88,11 @@ class Game:
         if player_id not in self.players:
             self.players[player_id] = Player()
 
+    def delete_player(self, player_id):
+        # this always succeeds, don't KeyError
+        self.players.pop(player_id, None)
+        self.strategies.pop(player_id, None)
+
     def get_player(self, player_id):
         return self.players[player_id] if player_id in self.players else Player(0, 0)
 

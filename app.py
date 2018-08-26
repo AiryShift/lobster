@@ -42,6 +42,11 @@ def handle_join(player_id):
     game.add_player(player_id)
 
 
+@socketio.on('exit')
+def handle_exit(player_id):
+    game.delete_player(player_id)
+
+
 @socketio.on('restart')
 def handle_restart():
     global game
