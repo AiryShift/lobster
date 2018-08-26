@@ -47,7 +47,7 @@ def handle_restart():
 
 @socketio.on('request_info')
 def handle_request_info(player_id):
-    app.logger.info(f'got request_info for: {player_id}')
+    app.logger.info('got request_info for: {}'.format(player_id))
     return {
         'cash': game.get_cash(player_id),
         'boats': game.get_boats(player_id),
@@ -80,7 +80,7 @@ def handle_validate_strategy(player_id, inshore, offshore):
 
 @socketio.on('submit_strategy')
 def handle_submit_strategy(player_id, strategy):
-    app.logger.info(f'submitting {strategy} for {player_id}')
+    app.logger.info('submitting {} for {}'.format(strategy, player_id))
     if 'hotel_work' in strategy:
         game.submit_hotel_strategy(player_id)
     else:
