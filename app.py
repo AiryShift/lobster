@@ -33,21 +33,21 @@ def index():
 
 @socketio.on('join')
 def handle_join():
-    print('got join')
+    app.logger.info('got join')
     return game.add_player()
 
 
 @socketio.on('restart')
 def handle_restart():
     global game
-    print('got restart')
+    app.logger.info('got restart')
     game = Game()
     emit('restart_ack', broadcast=True)
 
 
 @socketio.on('request_info')
 def handle_request_info(player_id):
-    print('got request_info for', player_id)
+    app.logger.info(f'got request_info for: {player_id}')
     return {
         'cash': game.get_cash(player_id),
         'boats': game.get_boats(player_id),
@@ -80,7 +80,7 @@ def handle_validate_strategy(player_id, inshore, offshore):
 
 @socketio.on('submit_strategy')
 def handle_submit_strategy(player_id, strategy):
-    print('submitting {} for {}'.format(strategy, player_id))
+    app.logger.info(f'submitting {strategy} for {player_id}')
     if 'hotel_work' in strategy:
         game.submit_hotel_strategy(player_id)
     else:
@@ -91,16 +91,16 @@ def handle_submit_strategy(player_id, strategy):
 
 @socketio.on('next_turn')
 def handle_next_turn():
-    print('attempting to advance turn...')
+    app.logger.info('attempting to advance turn...')
     if game.ready_to_finish():
         game.finish_day()
         emit('next_turn_ack', broadcast=True)
-        print('success')
+        app.logger.info('success')
 
 
 @socketio.on('message')
 def handle_message(message):
-    print(message)
+    app.logger.info(message)
 
 
 if __name__ == '__main__':
