@@ -59,6 +59,20 @@ def handle_request_info(player_id):
     }
 
 
+@socketio.on('buy_boat')
+def handle_buy_boat(player_id):
+    if not game.buy_boat(player_id):
+        return game.cash_needed_for_boat(player_id)
+    game.delete_strategy(player_id)
+    return 0
+
+
+@socketio.on('sell_boat')
+def handle_sell_boat(player_id):
+    # deletes the strategy if the sell is successful
+    return game.sell_boat(player_id) and game.delete_strategy(player_id)
+
+
 @socketio.on('validate_strategy')
 def handle_validate_strategy(player_id, inshore, offshore):
     return game.validate_strategy(player_id, inshore, offshore)

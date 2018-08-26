@@ -115,11 +115,18 @@ class Game:
         self.strategies[player_id] = HOTEL_WORK
         return True
 
+    def delete_strategy(self, player_id):
+        # don't raise KeyError
+        return bool(self.strategies.pop(player_id, None))
+
     def did_submit(self, player_id):
         return player_id in self.strategies
 
     def num_strategies(self):
         return len(self.strategies)
+
+    def cash_needed_for_boat(self, player_id):
+        return max(BOAT_COST - self.get_player(player_id).cash, 0)
 
     def buy_boat(self, player_id):
         if player_id not in self.players:
@@ -129,8 +136,8 @@ class Game:
         if player.cash < BOAT_COST:
             return False
 
-        player.cash -= 1
         player.boats += 1
+        player.cash -= BOAT_COST
         return True
 
     def sell_boat(self, player_id):

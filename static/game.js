@@ -65,6 +65,48 @@ function setInfo(player_id = '-', cash = ' -', boats = '-', pots = '-', day = 'M
     document.getElementById('day_num').textContent = day_num;
 }
 
+function buyBoat() {
+    bootbox.confirm({
+        message: 'Are you sure that you want to buy a boat?',
+        callback: (result) => {
+            if (result) {
+                socket.emit('buy_boat', window.player_id, (money_missing) => {
+                    if (money_missing > 0) {
+                        bootbox.alert({
+                            message: 'Missing $' + money_missing.toString() + ' cash.',
+                            backdrop: true,
+                            size: 'small',
+                        });
+                    } else {
+                        requestInfo();
+                    }
+                });
+            }
+        }
+    });
+}
+
+function sellBoat() {
+    bootbox.confirm({
+        message: 'Are you sure that you want to sell your boat?',
+        callback: (result) => {
+            if (result) {
+                socket.emit('sell_boat', window.player_id, (success) => {
+                    if (!success) {
+                        bootbox.alert({
+                            message: 'Cannot sell your last boat',
+                            backdrop: true,
+                            size: 'small',
+                        });
+                    } else {
+                        requestInfo();
+                    }
+                });
+            }
+        }
+    });
+}
+
 function submit_strategy() {
     if (document.getElementById('fish_radio').checked) {
         var inshore = document.getElementById('inshore_input').value;
