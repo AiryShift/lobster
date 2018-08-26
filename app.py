@@ -31,10 +31,15 @@ def index():
     return render_template('index.html')
 
 
+@socketio.on('get_unused_id')
+def handle_get_unused_id():
+    return game.get_unused_player_id()
+
+
 @socketio.on('join')
-def handle_join():
-    app.logger.info('got join')
-    return game.add_player()
+def handle_join(player_id):
+    app.logger.info('got join for ' + player_id)
+    game.add_player(player_id)
 
 
 @socketio.on('restart')

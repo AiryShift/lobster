@@ -36,10 +36,20 @@ function nextTurn() {
 }
 
 function join() {
-    socket.emit('join', (player_id) => {
-        window.player_id = player_id;
-        console.log('joined with id: ' + window.player_id);
-        requestInfo();
+    socket.emit('get_unused_id', (unused) => {
+        bootbox.prompt({
+            title: 'Join with which ID?',
+            size: 'small',
+            value: unused,
+            callback: (player_id) => {
+                if (player_id !== null) {
+                    socket.emit('join', player_id);
+                    window.player_id = player_id;
+                    console.log('joined with id: ' + player_id);
+                    requestInfo();
+                }
+            },
+        });
     });
 }
 

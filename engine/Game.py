@@ -17,6 +17,8 @@ import random
 from .Player import Player
 from .util import HOTEL_WORK, Day, Strategy, Weather, next_day
 
+ID_LENGTH = 40
+
 POTS_PER_BOAT = 6
 
 BOAT_COST = 150
@@ -76,10 +78,15 @@ class Game:
     def player_ids(self):
         return self.players.keys()
 
-    def add_player(self):
-        new_id = str(len(self.players))
-        self.players[new_id] = Player()
-        return new_id
+    def get_unused_player_id(self):
+        test = random.getrandbits(ID_LENGTH)
+        while test in self.players:
+            test = random.getrandbits(ID_LENGTH)
+        return str(test)
+
+    def add_player(self, player_id):
+        if player_id not in self.players:
+            self.players[player_id] = Player()
 
     def get_player(self, player_id):
         return self.players[player_id] if player_id in self.players else Player(0, 0)
