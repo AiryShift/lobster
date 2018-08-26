@@ -118,27 +118,26 @@ function sellBoat() {
 }
 
 function submit_strategy() {
+    var inshore = document.getElementById('inshore_input').value;
+    var offshore = document.getElementById('offshore_input').value;
+    var strategy;
     if (document.getElementById('fish_radio').checked) {
-        var inshore = document.getElementById('inshore_input').value;
-        var offshore = document.getElementById('offshore_input').value;
-        socket.emit('validate_strategy', window.player_id, parseInt(inshore), parseInt(offshore), (valid) => {
-            if (valid) {
-                console.log('submitting inshore: ' + inshore + ' offshore: ' + offshore);
-                socket.emit('submit_strategy', window.player_id, {
-                    inshore: parseInt(inshore),
-                    offshore: parseInt(offshore),
-                });
-            } else {
-                bootbox.alert({
-                    message: 'Invalid fishing allocation.',
-                    backdrop: true,
-                    size: 'small',
-                });
-            }
-        });
+        strategy = { inshore: parseInt(inshore), offshore: parseInt(offshore) };
     } else {
-        socket.emit('submit_strategy', window.player_id, { hotel_work: null });
+        strategy = { hotel_work: null };
     }
+
+    socket.emit('submit_strategy', window.player_id, strategy, (valid) => {
+        if (valid) {
+            console.log('submitting inshore: ' + inshore + ' offshore: ' + offshore);
+        } else {
+            bootbox.alert({
+                message: 'Invalid fishing allocation.',
+                backdrop: true,
+                size: 'small',
+            });
+        }
+    });
 }
 
 function enableFishing() {

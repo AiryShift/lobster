@@ -123,8 +123,8 @@ class Game:
         return True
 
     def delete_strategy(self, player_id):
-        # don't raise KeyError
-        return bool(self.strategies.pop(player_id, None))
+        # don't raise KeyError, this always succeeds
+        return bool(self.strategies.pop(player_id, True))
 
     def did_submit(self, player_id):
         return player_id in self.strategies

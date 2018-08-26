@@ -78,20 +78,14 @@ def handle_sell_boat(player_id):
     return game.sell_boat(player_id) and game.delete_strategy(player_id)
 
 
-@socketio.on('validate_strategy')
-def handle_validate_strategy(player_id, inshore, offshore):
-    return game.validate_strategy(player_id, inshore, offshore)
-
-
 @socketio.on('submit_strategy')
 def handle_submit_strategy(player_id, strategy):
     app.logger.info('submitting {} for {}'.format(strategy, player_id))
     if 'hotel_work' in strategy:
-        game.submit_hotel_strategy(player_id)
-    else:
-        game.submit_fish_strategy(player_id,
-                                  strategy['inshore'],
-                                  strategy['offshore'])
+        return game.submit_hotel_strategy(player_id)
+    return game.submit_fish_strategy(player_id,
+                                     strategy['inshore'],
+                                     strategy['offshore'])
 
 
 @socketio.on('next_turn')
