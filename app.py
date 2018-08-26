@@ -70,7 +70,9 @@ def handle_submit_strategy(player_id, strategy):
     if 'hotel_work' in strategy:
         game.submit_hotel_strategy(player_id)
     else:
-        game.submit_fish_strategy(player_id, strategy['inshore'], strategy['offshore'])
+        game.submit_fish_strategy(player_id,
+                                  strategy['inshore'],
+                                  strategy['offshore'])
 
 
 @socketio.on('next_turn')

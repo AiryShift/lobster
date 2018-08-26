@@ -1,7 +1,4 @@
-{% extends "base.html" %}
-
-
-{% block body %}
+{% extends "base.html" %} {% block body %}
 <script type="text/javascript" src="{{ url_for('static', filename='game.js') }}" charset="utf-8"></script>
 <h1 class="mt-3 mb-3">Playing Lobstah "Game"</h1>
 
@@ -84,8 +81,6 @@
 	<button type="button" class="btn btn-danger" id="join-btn" onclick="join()">Join</button>
 	<button type="button" class="btn btn-danger" id="restart-btn" onclick="resetGame()">Restart</button>
 </div>
-{% endblock body %}
-
-{% block js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js" integrity="sha256-0YA7ixx4+I4GrLichcjWSQHIUSQiI8ojTDqsK7AZ5zU=" crossorigin="anonymous"></script>
-{% endblock js %}
+{% endblock body %} {% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js" integrity="sha256-0YA7ixx4+I4GrLichcjWSQHIUSQiI8ojTDqsK7AZ5zU="
+ crossorigin="anonymous"></script> {% endblock js %}

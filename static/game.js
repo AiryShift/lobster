@@ -39,7 +39,7 @@ function requestInfo() {
     });
 }
 
-function setInfo(player_id='-', cash=' -', boats='-', pots='-', day='Monday', consecutive_bad='0', yesterday_weather='Good', day_num='0') {
+function setInfo(player_id = '-', cash = ' -', boats = '-', pots = '-', day = 'Monday', consecutive_bad = '0', yesterday_weather = 'Good', day_num = '0') {
     window.player_id = player_id;
     document.getElementById('my_id').textContent = player_id;
     document.getElementById('my_cash').textContent = '$' + cash;
@@ -71,7 +71,7 @@ function submit_strategy() {
             }
         });
     } else {
-        socket.emit('submit_strategy', window.player_id, {hotel_work: null});
+        socket.emit('submit_strategy', window.player_id, { hotel_work: null });
     }
 }
 
