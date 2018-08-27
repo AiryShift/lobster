@@ -24,12 +24,12 @@ socket.on('message', (msg) => {
 socket.on('restart_ack', () => {
     console.log('restarting...');
     window.player_id = null;
-    setInfo();
+    updateData();
 });
 
 socket.on('next_turn_ack', () => {
     console.log('advancing turn');
-    requestInfo();
+    updateData();
 });
 
 function nextTurn() {
@@ -47,7 +47,7 @@ function join() {
                     socket.emit('join', player_id);
                     window.player_id = player_id;
                     console.log('joined with id: ' + player_id);
-                    requestInfo();
+                    updateData();
                 }
             },
         });
@@ -62,7 +62,7 @@ function exit() {
                 if (result) {
                     socket.emit('exit', window.player_id);
                     window.player_id = null;
-                    requestInfo();
+                    updateData();
                 }
             }
         });
@@ -73,9 +73,19 @@ function resetGame() {
     socket.emit('restart');
 }
 
-function requestInfo() {
+function updateData() {
     socket.emit('request_info', window.player_id, (info) => {
         setInfo(window.player_id, info['cash'], info['boats'], info['pots'], info['day'], info['consecutive_bad'], info['yesterday_weather'], info['day_num']);
+    });
+    socket.emit('request_ranking', (ranking) => {
+        var ranking_body = document.getElementById('ranking_tbody');
+        ranking_body.innerHTML = '';
+        for (var i = 0; i < ranking.length; i++) {
+            var row = ranking_body.appendChild(document.createElement('tr'));
+            row.appendChild(document.createElement('td')).textContent = ranking[i]['rank'];
+            row.appendChild(document.createElement('td')).textContent = ranking[i]['id'];
+            row.appendChild(document.createElement('td')).textContent = ranking[i]['cash'];
+        }
     });
 }
 
@@ -103,7 +113,7 @@ function buyBoat() {
                             size: 'small',
                         });
                     } else {
-                        requestInfo();
+                        updateData();
                     }
                 });
             }
@@ -124,7 +134,7 @@ function sellBoat() {
                             size: 'small',
                         });
                     } else {
-                        requestInfo();
+                        updateData();
                     }
                 });
             }

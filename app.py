@@ -69,6 +69,27 @@ def handle_request_info(player_id):
     }
 
 
+@socketio.on('request_ranking')
+def handle_request_ranking():
+    ranking = []
+    for player_id in game.player_ids:
+        ranking.append({
+            'id': player_id,
+            'cash': game.get_cash(player_id)
+        })
+    ranking.sort(key=lambda rank: int(rank['cash']), reverse=True)
+
+    # assign a ranking with ties
+    previous_cash = float('inf')
+    rank = 0
+    for entry in ranking:
+        if entry['cash'] != previous_cash:
+            rank += 1
+        entry['rank'] = rank
+        previous_cash = entry['cash']
+    return ranking
+
+
 @socketio.on('buy_boat')
 def handle_buy_boat(player_id):
     if not game.buy_boat(player_id):
