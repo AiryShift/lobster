@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block body %}
 <script type="text/javascript" src="{{ url_for('static', filename='game.js') }}" charset="utf-8"></script>
-<h1 class="mt-3 mb-3">Playing Lobstah "Game"</h1>
+<h1 class="mt-3 mb-3 text-center">Playing Lobstah "Game"</h1>
 
 <div>
 	<h2 class="mb-3">My Information</h2>
@@ -15,7 +15,7 @@
 			Yesterday's weather: <strong id="yesterday_weather">Good</strong>
 		</div>
 		<div class="col">
-			Consecutive days of bad weather: <strong id="consecutive_bad_weather">0</strong>
+			Consecutive bad weather: <strong id="consecutive_bad_weather">0</strong>
 		</div>
 	</div>
 	<table class="table">

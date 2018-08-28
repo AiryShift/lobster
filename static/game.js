@@ -58,19 +58,28 @@ function exit() {
     if (window.player_id !== null) {
         bootbox.confirm({
             message: 'Are you sure?',
+            buttons: { confirm: { label: "Yes", }, cancel: { label: "No", }, },
             callback: (result) => {
                 if (result) {
                     socket.emit('exit', window.player_id);
                     window.player_id = null;
                     updateData();
                 }
-            }
+            },
         });
     }
 }
 
 function resetGame() {
-    socket.emit('restart');
+    bootbox.confirm({
+        message: 'Are you sure?',
+        buttons: { confirm: { label: "Yes", }, cancel: { label: "No", }, },
+        callback: (result) => {
+            if (result) {
+                socket.emit('restart');
+            }
+        }
+    });
 }
 
 function updateData() {
@@ -103,6 +112,7 @@ function setInfo(player_id = '-', cash = ' -', boats = '-', pots = '-', day = 'M
 function buyBoat() {
     bootbox.confirm({
         message: 'Are you sure that you want to buy a boat?',
+        buttons: { confirm: { label: "Yes", }, cancel: { label: "No", }, },
         callback: (result) => {
             if (result) {
                 socket.emit('buy_boat', window.player_id, (money_missing) => {
@@ -117,13 +127,14 @@ function buyBoat() {
                     }
                 });
             }
-        }
+        },
     });
 }
 
 function sellBoat() {
     bootbox.confirm({
         message: 'Are you sure that you want to sell your boat?',
+        buttons: { confirm: { label: "Yes", }, cancel: { label: "No", }, },
         callback: (result) => {
             if (result) {
                 socket.emit('sell_boat', window.player_id, (success) => {
@@ -138,7 +149,7 @@ function sellBoat() {
                     }
                 });
             }
-        }
+        },
     });
 }
 
