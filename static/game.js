@@ -15,11 +15,16 @@
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 socket.on('connect', () => {
+    updateData();
 });
 
 socket.on('message', (msg) => {
     console.log(msg);
 });
+
+socket.on('should_update', () => {
+    updateData();
+})
 
 socket.on('restart_ack', () => {
     console.log('restarting...');

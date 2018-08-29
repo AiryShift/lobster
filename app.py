@@ -40,11 +40,13 @@ def handle_get_unused_id():
 def handle_join(player_id):
     app.logger.info('got join for ' + player_id)
     game.add_player(player_id)
+    emit('should_update', broadcast=True)
 
 
 @socketio.on('exit')
 def handle_exit(player_id):
     game.delete_player(player_id)
+    emit('should_update', broadcast=True)
 
 
 @socketio.on('restart')
