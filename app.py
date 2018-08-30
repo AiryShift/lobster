@@ -14,12 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
+import mistune
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
 from engine import Game
 from views.game_view import game_view
 
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.register_blueprint(game_view, url_prefix='/play')
 socketio = SocketIO(app)
@@ -28,7 +32,9 @@ game = Game()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    with open(os.path.join(SITE_ROOT, 'static', 'index.md')) as f:
+        body_text = mistune.markdown(f.read(), escape=False)
+    return render_template('index.html', body_text=body_text)
 
 
 @socketio.on('get_unused_id')
