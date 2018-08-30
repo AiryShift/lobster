@@ -54,3 +54,7 @@ These will probably be subject to further fine tuning.
 * Please don't press `Restart` unless everyone has previously agreed as it restarts the game for everyone.
 * `Next Turn` will advance the turn once every ID currently connected has submitted a strategy.
 * To quit the game for a player, join as that player then use the `Leave` button.
+
+## Misc.
+
+Find code [here](https://github.com/AiryShift/lobster).
