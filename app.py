@@ -83,7 +83,8 @@ def handle_request_ranking():
     for player_id in game.player_ids:
         ranking.append({
             'id': player_id,
-            'cash': game.get_cash(player_id)
+            'cash': game.get_cash(player_id),
+            'submitted': game.did_submit(player_id),
         })
     ranking.sort(key=lambda rank: int(rank['cash']), reverse=True)
 
@@ -116,10 +117,14 @@ def handle_sell_boat(player_id):
 def handle_submit_strategy(player_id, strategy):
     app.logger.info('submitting {} for {}'.format(strategy, player_id))
     if 'hotel_work' in strategy:
-        return game.submit_hotel_strategy(player_id)
-    return game.submit_fish_strategy(player_id,
-                                     strategy['inshore'],
-                                     strategy['offshore'])
+        ret = game.submit_hotel_strategy(player_id)
+    else:
+        ret = game.submit_fish_strategy(player_id,
+                                        strategy['inshore'],
+                                        strategy['offshore'])
+    if ret:
+        emit('should_update', broadcast=True)
+    return ret
 
 
 @socketio.on('next_turn')

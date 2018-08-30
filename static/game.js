@@ -99,6 +99,7 @@ function updateData() {
             row.appendChild(document.createElement('td')).textContent = ranking[i]['rank'];
             row.appendChild(document.createElement('td')).textContent = ranking[i]['id'];
             row.appendChild(document.createElement('td')).textContent = ranking[i]['cash'];
+            row.appendChild(document.createElement('td')).textContent = ranking[i]['submitted'] ? '✓' : '✗';
         }
     });
 }
